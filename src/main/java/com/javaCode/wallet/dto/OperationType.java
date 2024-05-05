@@ -1,4 +1,4 @@
-package com.javaCode.dto;
+package com.javaCode.wallet.dto;
 
 public enum OperationType {
     DEPOSIT, WITHDRAW

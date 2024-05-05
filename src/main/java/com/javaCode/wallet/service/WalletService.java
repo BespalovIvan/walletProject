@@ -1,8 +1,8 @@
-package com.javaCode.service;
+package com.javaCode.wallet.service;
 
 
-import com.javaCode.dto.WalletRequestDto;
-import com.javaCode.dto.WalletResponseDto;
+import com.javaCode.wallet.dto.WalletRequestDto;
+import com.javaCode.wallet.dto.WalletResponseDto;
 
 import java.util.UUID;
 

@@ -1,13 +1,17 @@
-package com.javaCode.entity;
+package com.javaCode.wallet.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "wallets")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,3 +20,4 @@ public class Wallet {
     private Long amount;
 
 }
+

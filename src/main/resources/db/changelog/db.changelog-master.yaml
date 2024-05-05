@@ -18,3 +18,9 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+  - changeSet:
+       id: create-author2
+       author: Bespalov2
+       changes:
+              - sql:
+                  sql: ALTER TABLE wallets ADD CONSTRAINT check_positive CHECK (amount >=0)

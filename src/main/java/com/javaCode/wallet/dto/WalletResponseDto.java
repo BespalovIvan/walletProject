@@ -1,6 +1,6 @@
-package com.javaCode.dto;
+package com.javaCode.wallet.dto;
 
-import com.javaCode.entity.Wallet;
+import com.javaCode.wallet.entity.Wallet;
 import lombok.Data;
 
 import java.util.UUID;

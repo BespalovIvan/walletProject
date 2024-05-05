@@ -1,6 +1,6 @@
-package com.javaCode.repository;
+package com.javaCode.wallet.repository;
 
-import com.javaCode.entity.Wallet;
+import com.javaCode.wallet.entity.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
