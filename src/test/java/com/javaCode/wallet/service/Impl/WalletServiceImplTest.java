@@ -28,17 +28,14 @@ class WalletServiceImplTest {
     private WalletServiceImpl walletService;
     @Mock
     private WalletRepo walletRepo;
+    private static final UUID id = UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9");
 
     @Test
     void findWalletByIdTest() {
-        Optional<Wallet> optionalWallet = Optional
-                .of(new Wallet(UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"), 1000L));
-        Mockito.when(walletRepo.findById(UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9")))
-                .thenReturn(optionalWallet);
-        WalletResponseDto walletResponseDto = walletService
-                .findWallet(UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"));
-        Assertions.assertEquals(UUID
-                .fromString("e949c725-8553-4965-a514-1dcb5ac135f9"), walletResponseDto.getId());
+        Optional<Wallet> optionalWallet = Optional.of(new Wallet(id, 1000L));
+        Mockito.when(walletRepo.findById(id)).thenReturn(optionalWallet);
+        WalletResponseDto walletResponseDto = walletService.findWallet(id);
+        Assertions.assertEquals(id, walletResponseDto.getId());
         Assertions.assertEquals(1000L, walletResponseDto.getAmount());
     }
 
@@ -49,17 +46,13 @@ class WalletServiceImplTest {
 
     @Test
     void findWalletByInvalidIdTest() {
-        Mockito.when(walletRepo.findById(UUID
-                        .fromString("e949c725-8553-4965-a514-1dcb5ac135f9")))
-                .thenThrow(new InvalidIdException("Wallet with the id not found"));
-        Assertions.assertThrows(InvalidIdException.class, () -> walletService
-                .findWallet(UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9")));
+        Mockito.when(walletRepo.findById(id)).thenThrow(new InvalidIdException("Wallet with the id not found"));
+        Assertions.assertThrows(InvalidIdException.class, () -> walletService.findWallet(id));
     }
 
     @Test
     void updateWalletMinusAmountTest() {
-        WalletRequestDto walletRequestDto = new WalletRequestDto(UUID
-                .fromString("e949c725-8553-4965-a514-1dcb5ac135f9"), 100L, OperationType.WITHDRAW);
+        WalletRequestDto walletRequestDto = new WalletRequestDto(id, 100L, OperationType.WITHDRAW);
         walletService.updateWallet(walletRequestDto);
         verify(walletRepo).updateMinusAmount(100L, walletRequestDto.getWalletId());
 
@@ -67,8 +60,7 @@ class WalletServiceImplTest {
 
     @Test
     void updateWalletPlusAmountTest() {
-        WalletRequestDto walletRequestDto = new WalletRequestDto(UUID
-                .fromString("e949c725-8553-4965-a514-1dcb5ac135f9"), 100L, OperationType.DEPOSIT);
+        WalletRequestDto walletRequestDto = new WalletRequestDto(id, 100L, OperationType.DEPOSIT);
         walletService.updateWallet(walletRequestDto);
         verify(walletRepo).updatePlusAmount(100L, walletRequestDto.getWalletId());
 

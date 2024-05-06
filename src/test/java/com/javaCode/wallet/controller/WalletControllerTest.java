@@ -33,14 +33,12 @@ class WalletControllerTest {
     WalletService walletService;
     @Autowired
     ObjectMapper objectMapper;
+    private static final UUID id = UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9");
 
 
     @Test
     void updateAmountPlusToWalletTest() throws Exception {
-        WalletRequestDto walletRequestDto = new WalletRequestDto(
-                UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"),
-                100L,
-                OperationType.DEPOSIT);
+        WalletRequestDto walletRequestDto = new WalletRequestDto(id, 100L, OperationType.DEPOSIT);
         String walletRequestDtoJson = objectMapper.writeValueAsString(walletRequestDto);
         mockmvc.perform(MockMvcRequestBuilders.post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -52,10 +50,7 @@ class WalletControllerTest {
 
     @Test
     void updateAmountMinusToWalletTest() throws Exception {
-        WalletRequestDto walletRequestDto = new WalletRequestDto(
-                UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"),
-                100L,
-                OperationType.WITHDRAW);
+        WalletRequestDto walletRequestDto = new WalletRequestDto(id, 100L, OperationType.WITHDRAW);
         String walletRequestDtoJson = objectMapper.writeValueAsString(walletRequestDto);
         mockmvc.perform(MockMvcRequestBuilders.post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,23 +62,19 @@ class WalletControllerTest {
 
     @Test
     void findByIdTest() throws Exception {
-        Wallet wallet = new Wallet(UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"), 1000L);
+        Wallet wallet = new Wallet(id, 1000L);
         WalletResponseDto walletResponseDto = new WalletResponseDto(wallet);
-        when(this.walletService
-                .findWallet(UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"))).thenReturn(walletResponseDto);
-        mockmvc.perform(get("/api/v1/wallets/{WALLET_UUID}", "e949c725-8553-4965-a514-1dcb5ac135f9"))
+        when(this.walletService.findWallet(id)).thenReturn(walletResponseDto);
+        mockmvc.perform(get("/api/v1/wallets/{WALLET_UUID}", id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("e949c725-8553-4965-a514-1dcb5ac135f9"))
+                .andExpect(jsonPath("$.id").value(id.toString()))
                 .andExpect(jsonPath("$.amount").value(1000L));
         verify(walletService, times(1)).findWallet(wallet.getId());
     }
 
     @Test
     void amountIsNullTest() throws Exception {
-        WalletRequestDto walletRequestDto = new WalletRequestDto(
-                UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"),
-                null,
-                OperationType.WITHDRAW);
+        WalletRequestDto walletRequestDto = new WalletRequestDto(id, null, OperationType.WITHDRAW);
         String walletRequestDtoJson = objectMapper.writeValueAsString(walletRequestDto);
         MvcResult response = mockmvc.perform(MockMvcRequestBuilders.post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -97,10 +88,7 @@ class WalletControllerTest {
     }
     @Test
     void amountIsLessThenOneTest() throws Exception {
-        WalletRequestDto walletRequestDto = new WalletRequestDto(
-                UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"),
-                0L,
-                OperationType.WITHDRAW);
+        WalletRequestDto walletRequestDto = new WalletRequestDto(id, 0L, OperationType.WITHDRAW);
         String walletRequestDtoJson = objectMapper.writeValueAsString(walletRequestDto);
         MvcResult response = mockmvc.perform(MockMvcRequestBuilders.post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -113,9 +101,7 @@ class WalletControllerTest {
     }
     @Test
     void walletIdIsNullTest() throws Exception {
-        WalletRequestDto walletRequestDto = new WalletRequestDto(null,
-                10L,
-                OperationType.WITHDRAW);
+        WalletRequestDto walletRequestDto = new WalletRequestDto(null, 10L, OperationType.WITHDRAW);
         String walletRequestDtoJson = objectMapper.writeValueAsString(walletRequestDto);
         MvcResult response = mockmvc.perform(MockMvcRequestBuilders.post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -129,10 +115,7 @@ class WalletControllerTest {
     }
     @Test
     void operationTypeIsNullTest() throws Exception {
-        WalletRequestDto walletRequestDto = new WalletRequestDto(
-                UUID.fromString("e949c725-8553-4965-a514-1dcb5ac135f9"),
-                10L,
-                null);
+        WalletRequestDto walletRequestDto = new WalletRequestDto(id, 10L, null);
         String walletRequestDtoJson = objectMapper.writeValueAsString(walletRequestDto);
         MvcResult response = mockmvc.perform(MockMvcRequestBuilders.post("/api/v1/wallet")
                         .contentType(MediaType.APPLICATION_JSON)

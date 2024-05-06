@@ -33,7 +33,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public void updateWallet(WalletRequestDto walletRequestDto) {
         if (walletRequestDto == null) {
-            throw new WalletRequestDtoException("Invalid Request");
+            throw new WalletRequestDtoException("WalletRequestDto must not be mull");
         }
         if (walletRequestDto.getOperationType() == OperationType.DEPOSIT) {
             walletRepo.updatePlusAmount(walletRequestDto.getAmount(), walletRequestDto.getWalletId());
