@@ -27,4 +27,5 @@ public class WalletController {
     public ResponseEntity<WalletResponseDto> findWallet(@PathVariable("WALLET_UUID") UUID id) {
         return new ResponseEntity<>(walletService.findWallet(id), HttpStatus.OK);
     }
+
 }
