@@ -6,7 +6,8 @@ import com.javaCode.wallet.dto.WalletResponseDto;
 import com.javaCode.wallet.entity.Wallet;
 import com.javaCode.wallet.exceptions.InvalidIdException;
 import com.javaCode.wallet.exceptions.NullIdException;
-import com.javaCode.wallet.exceptions.WalletRequestDtoException;
+import com.javaCode.wallet.exceptions.OperationTypeException;
+import com.javaCode.wallet.exceptions.WalletRequestDtoNullException;
 import com.javaCode.wallet.repository.WalletRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -65,9 +66,14 @@ class WalletServiceImplTest {
         verify(walletRepo).updatePlusAmount(100L, walletRequestDto.getWalletId());
 
     }
+    @Test
+    void IncorrectOperationTypeTest() {
+        WalletRequestDto walletRequestDto = new WalletRequestDto(id, 100L,OperationType.UNKNOWN);
+        Assertions.assertThrows(OperationTypeException.class,()->walletService.updateWallet(walletRequestDto));
+    }
 
     @Test
     void walletDtoIsNullTest() {
-        Assertions.assertThrows(WalletRequestDtoException.class, () -> walletService.updateWallet(null));
+        Assertions.assertThrows(WalletRequestDtoNullException.class, () -> walletService.updateWallet(null));
     }
 }

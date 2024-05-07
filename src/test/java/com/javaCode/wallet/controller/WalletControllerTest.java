@@ -63,7 +63,7 @@ class WalletControllerTest {
     @Test
     void findByIdTest() throws Exception {
         Wallet wallet = new Wallet(id, 1000L);
-        WalletResponseDto walletResponseDto = new WalletResponseDto(wallet);
+        WalletResponseDto walletResponseDto = WalletResponseDto.of(wallet);
         when(this.walletService.findWallet(id)).thenReturn(walletResponseDto);
         mockmvc.perform(get("/api/v1/wallets/{WALLET_UUID}", id))
                 .andExpect(status().isOk())
@@ -84,7 +84,6 @@ class WalletControllerTest {
         String message = Objects.requireNonNull(response.getResolvedException()).getMessage();
         Assertions.assertTrue(message.contains("default message [amount]"));
         Assertions.assertTrue(message.contains("default message [amount must not be null]"));
-
     }
     @Test
     void amountIsLessThenOneTest() throws Exception {

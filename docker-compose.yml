@@ -1,9 +1,6 @@
 version: '3.2'
-
-
 volumes:
   pg_wallet:
-
 services:
   wallet_db:
     image: postgres
@@ -14,10 +11,8 @@ services:
       - POSTGRES_DB=wallet_db
     volumes:
       - pg_wallet:/var/lib/postgresql/data
-
     ports:
       - "127.0.0.1:5432:5432"
-
   app:
     restart: always
     build:
